@@ -37,6 +37,30 @@ class QuestionaryCore:
             raise KeyboardInterrupt("Multiple choice prompt aborted")
         return result
 
+    def multiple_select(
+        self,
+        message: str,
+        choices: Sequence[str],
+        default: Sequence[str] | None = None,
+    ) -> list[str]:
+        """Render a checkbox prompt and return the selected options."""
+        if not choices:
+            raise ValueError("choices must contain at least one option")
+        if default is not None:
+            invalid = set(default) - set(choices)
+            if invalid:
+                raise ValueError(f"default contains invalid choices: {invalid}")
+        result = questionary.checkbox(
+            message,
+            choices=list(choices),
+            default=list(default) if default else None,
+            use_jk_keys=False,
+            use_search_filter=True,
+        ).ask()
+        if result is None:
+            raise KeyboardInterrupt("Multiple select prompt aborted")
+        return result
+
     def path_input(self, message: str, *, default: str | None = None, only_directories: bool = False) -> str:
         """Collect a filesystem path with tab completion support."""
         result = questionary.path(
