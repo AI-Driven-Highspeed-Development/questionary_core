@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import importlib
-from typing import Any, Iterable, Sequence
+from typing import Iterable, Sequence
 
-from managers.config_manager import ConfigManager
 import questionary
 
 
@@ -11,8 +9,7 @@ class QuestionaryCore:
     """Wrapper around the questionary prompts with project config wiring."""
 
     def __init__(self) -> None:
-        self.cm = ConfigManager()
-        self.config = self.cm.config.questionary_core
+        pass
 
     def multiple_choice(
         self,
